@@ -49,11 +49,7 @@ func (this *MyLinkedList) AddAtIndex(index int, val int)  {
     if !(0 <= index && index <= this.length) { // index out of range check
         return
     }
-    // if this.head == nil { // handle no list at all
-    //     this.head = &Node{val, nil}
-    //     return
-    // }
-    // delegate to simpler fxns for edges
+    // delegate to simpler functions for head and tail cases
     if index == 0 {
         this.AddAtHead(val)
         return
@@ -61,6 +57,7 @@ func (this *MyLinkedList) AddAtIndex(index int, val int)  {
         this.AddAtTail(val)
         return
     }
+    // handle not-head-nor-tail case
     node := this.head
     for i := 0; i < index; i++ {
         node = node.next
@@ -69,13 +66,13 @@ func (this *MyLinkedList) AddAtIndex(index int, val int)  {
         tail := *node
         *node = Node{val, &tail}
     } else {
-        return // reqs say to fail silently when index out-of-bounds
+        panic("node should not be nil here if bounds checks are working!")
     }
     this.length++
 }
 
 func (this *MyLinkedList) DeleteAtIndex(index int)  {
-    if !(0 <= index && index < this.length) { // DeleteAtIndex index out of range
+    if !(0 <= index && index < this.length) { // index out of range check
         return
     }
     if index == 0 {
@@ -91,7 +88,7 @@ func (this *MyLinkedList) DeleteAtIndex(index int)  {
         node = node.next
     }
     if node == nil {
-        panic("this shouldn't be nil b/c bounds check")
+        panic("this shouldn't be nil because bounds check")
     }
     if node.next != nil { // node is not tail
         *node = *node.next
