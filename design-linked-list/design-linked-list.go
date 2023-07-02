@@ -1,6 +1,3 @@
-// AddAtHead, AddAtTail, and AddAtIndex all work in simple conditions.
-// Need to test DeleteAtIndex and AddAtIndex when it's at end of list.
-
 type MyLinkedList struct {
     head *Node
     length int
@@ -11,14 +8,12 @@ type Node struct {
     next *Node
 }
 
-
 func Constructor() MyLinkedList {
     return MyLinkedList{}
 }
 
-
 func (this *MyLinkedList) Get(index int) int {
-    if !(0 <= index && index < this.length) { // DeleteAtIndex index out of range
+    if !(0 <= index && index < this.length) { // index out of range check
         return -1
     }
     node := this.head
@@ -28,23 +23,21 @@ func (this *MyLinkedList) Get(index int) int {
     return node.val
 }
 
-
 func (this *MyLinkedList) AddAtHead(val int)  {
     if this.head == nil { // if head not present, create head w/ val
         this.head = &Node{val, nil}
-    } else { // if head is present, head is new node with old tail.
+    } else { // if head is present, head is new node with old list as this.next
         this.head = &Node{val, this.head}
     }
     this.length++
 }
 
-
 func (this *MyLinkedList) AddAtTail(val int)  {
-    if this.head == nil { // if head not present, head = tail; create head w/ val
+    if this.head == nil { // if head not present, create head (same as tail) w/ val
         this.head = &Node{val, this.head}
     } else {
         node := this.head
-        for node.next != nil { // iterate until node.next is nil. since head was non-nil, node is also.
+        for node.next != nil { // iterate until node.next is nil. since head was non-nil, node is too.
             node = node.next
         }
         node.next = &Node{val, nil}
@@ -52,15 +45,14 @@ func (this *MyLinkedList) AddAtTail(val int)  {
     this.length++
 }
 
-
 func (this *MyLinkedList) AddAtIndex(index int, val int)  {
-    if !(0 <= index && index <= this.length) { // DeleteAtIndex index out of range
+    if !(0 <= index && index <= this.length) { // index out of range check
         return
     }
-    if this.head == nil { // handle no list at all
-        this.head = &Node{val, nil}
-        return
-    }
+    // if this.head == nil { // handle no list at all
+    //     this.head = &Node{val, nil}
+    //     return
+    // }
     // delegate to simpler fxns for edges
     if index == 0 {
         this.AddAtHead(val)
@@ -81,7 +73,6 @@ func (this *MyLinkedList) AddAtIndex(index int, val int)  {
     }
     this.length++
 }
-
 
 func (this *MyLinkedList) DeleteAtIndex(index int)  {
     if !(0 <= index && index < this.length) { // DeleteAtIndex index out of range
